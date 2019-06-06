@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.crudemo.dao.EmployeeDAO;
 import com.springboot.crudemo.entity.Employee;
+import com.springboot.crudemo.service.EmployeeService;
 
 @RestController
 @RequestMapping("/api")
 public class EmployeeRestController {
 	
-	// INJECT EMPLOYEE DAO
-	private EmployeeDAO employeeDAO;
+	private EmployeeService employeeService;
 	
 	@Autowired
-	public EmployeeRestController (EmployeeDAO employeeDAO) {
-		this.employeeDAO = employeeDAO;
+	public EmployeeRestController (EmployeeService employeeService) {
+		this.employeeService = employeeService;
 	}
 	
 	// EXPOSE "/EMPLOYESS" -> RETURN ALL EMPLOYESS
 	@GetMapping("/employees")
 	public List<Employee> findAll () {
-		return employeeDAO.findAll();
+		return employeeService.findAll();
 	}
 	
 	
