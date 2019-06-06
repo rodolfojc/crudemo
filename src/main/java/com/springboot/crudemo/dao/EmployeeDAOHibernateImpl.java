@@ -28,7 +28,7 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 	}
 	
 	@Override
-	@Transactional // HANDLES TRANSACTION MANAGMENT - NO NEED OF MANUALLY START / COMMIT TRASAC.. 
+	//@Transactional // HANDLES TRANSACTION MANAGMENT - NO NEED OF MANUALLY START / COMMIT TRASAC.. 
 	public List<Employee> findAll() {
 		
 		// GET CURRENT HIBERNATE SESSION
@@ -43,6 +43,43 @@ public class EmployeeDAOHibernateImpl implements EmployeeDAO {
 		// RETURN THE RESULT 
 	
 		return employees;
+	}
+
+	@Override
+	public Employee findById(int theId) {
+		
+		// GET CURRENT HIBERNATE SESSION
+		Session currentSession = this.entityManager.unwrap(Session.class);
+		
+		// GET EMPLOYEE
+		Employee theEmployee = currentSession.get(Employee.class, theId);
+		
+		// RETURN EMPLOYEE
+		return theEmployee;
+	}
+
+	@Override
+	public void addEmployee(Employee theEmployee) {
+		
+		// GET CURRENT HIBERNATE SESSION
+		Session currentSession = this.entityManager.unwrap(Session.class);
+		
+		// SAVE EMPLOYEE
+		currentSession.saveOrUpdate(theEmployee);
+		
+	}
+
+	@Override
+	public void deleteEmployeeById(int theId) {
+		
+		// GET CURRENT HIBERNATE SESSION
+		Session currentSession = this.entityManager.unwrap(Session.class);
+		
+		// CREATE QUERY
+		Query theQuery = currentSession.createQuery("delete from Employee where id =: employeeId ");
+		theQuery.setParameter("employeeId", theId);
+		theQuery.executeUpdate();
+				
 	}
 
 }
